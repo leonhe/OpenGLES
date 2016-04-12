@@ -201,7 +201,7 @@ static  GLfloat color_val[] = {
         glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(interwinded), interwinded, GL_STATIC_DRAW);
     
-        glGenBuffers(1, &_colorBuffer);qq
+        glGenBuffers(1, &_colorBuffer);
         glBindBuffer(GL_ARRAY_BUFFER, _colorBuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(color_val), color_val, GL_STATIC_DRAW);
 }
