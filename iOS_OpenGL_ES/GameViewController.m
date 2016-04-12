@@ -197,13 +197,13 @@ static  GLfloat color_val[] = {
     
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_LESS);
-    glGenBuffers(1, &_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(interwinded), interwinded, GL_STATIC_DRAW);
+        glGenBuffers(1, &_vertexBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(interwinded), interwinded, GL_STATIC_DRAW);
     
-    glGenBuffers(1, &_colorBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _colorBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(color_val), color_val, GL_STATIC_DRAW);
+        glGenBuffers(1, &_colorBuffer);qq
+        glBindBuffer(GL_ARRAY_BUFFER, _colorBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(color_val), color_val, GL_STATIC_DRAW);
 }
 
 - (void)tearDownGL
