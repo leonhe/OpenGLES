@@ -7,17 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C0122A701CBE227A0065B26E /* Resouces in Resources */ = {isa = PBXBuildFile; fileRef = C0122A6F1CBE227A0065B26E /* Resouces */; settings = {ASSET_TAGS = (); }; };
+		C0122A741CBE27B00065B26E /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0122A731CBE27B00065B26E /* GameViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C0BCF8D21CBCF78D00EBC196 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C0BCF8C31CBCF78D00EBC196 /* AppDelegate.m */; settings = {ASSET_TAGS = (); }; };
 		C0BCF8D31CBCF78D00EBC196 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C0BCF8C41CBCF78D00EBC196 /* Assets.xcassets */; settings = {ASSET_TAGS = (); }; };
 		C0BCF8D41CBCF78D00EBC196 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0BCF8C51CBCF78D00EBC196 /* LaunchScreen.storyboard */; settings = {ASSET_TAGS = (); }; };
 		C0BCF8D51CBCF78D00EBC196 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C0BCF8C71CBCF78D00EBC196 /* Main.storyboard */; settings = {ASSET_TAGS = (); }; };
-		C0BCF8D61CBCF78D00EBC196 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C0BCF8CA1CBCF78D00EBC196 /* GameViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C0BCF8D71CBCF78D00EBC196 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C0BCF8CB1CBCF78D00EBC196 /* Info.plist */; settings = {ASSET_TAGS = (); }; };
 		C0BCF8D81CBCF78D00EBC196 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C0BCF8CC1CBCF78D00EBC196 /* main.m */; settings = {ASSET_TAGS = (); }; };
 		C0BCF8DE1CBCF7D200EBC196 /* Shaders in Resources */ = {isa = PBXBuildFile; fileRef = C0BCF8DD1CBCF7D200EBC196 /* Shaders */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C0122A6F1CBE227A0065B26E /* Resouces */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resouces; sourceTree = "<group>"; };
+		C0122A731CBE27B00065B26E /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameViewController.m; path = iOS_OpenGL_ES/GameViewController.m; sourceTree = "<group>"; };
 		C0BCF8941CBCB20600EBC196 /* iOS_OPenGL_ES.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS_OPenGL_ES.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0BCF8C21CBCF78D00EBC196 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C0BCF8C31CBCF78D00EBC196 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -25,7 +28,6 @@
 		C0BCF8C61CBCF78D00EBC196 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C0BCF8C81CBCF78D00EBC196 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C0BCF8C91CBCF78D00EBC196 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
-		C0BCF8CA1CBCF78D00EBC196 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		C0BCF8CB1CBCF78D00EBC196 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C0BCF8CC1CBCF78D00EBC196 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C0BCF8DD1CBCF7D200EBC196 /* Shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Shaders; sourceTree = "<group>"; };
@@ -45,6 +47,7 @@
 		C0BCF88B1CBCB20600EBC196 = {
 			isa = PBXGroup;
 			children = (
+				C0122A731CBE27B00065B26E /* GameViewController.m */,
 				C0BCF8C11CBCF78D00EBC196 /* iOS_OpenGL_ES */,
 				C0BCF8951CBCB20600EBC196 /* Products */,
 			);
@@ -61,6 +64,7 @@
 		C0BCF8C11CBCF78D00EBC196 /* iOS_OpenGL_ES */ = {
 			isa = PBXGroup;
 			children = (
+				C0122A6F1CBE227A0065B26E /* Resouces */,
 				C0BCF8DD1CBCF7D200EBC196 /* Shaders */,
 				C0BCF8C21CBCF78D00EBC196 /* AppDelegate.h */,
 				C0BCF8C31CBCF78D00EBC196 /* AppDelegate.m */,
@@ -68,7 +72,6 @@
 				C0BCF8C51CBCF78D00EBC196 /* LaunchScreen.storyboard */,
 				C0BCF8C71CBCF78D00EBC196 /* Main.storyboard */,
 				C0BCF8C91CBCF78D00EBC196 /* GameViewController.h */,
-				C0BCF8CA1CBCF78D00EBC196 /* GameViewController.m */,
 				C0BCF8CB1CBCF78D00EBC196 /* Info.plist */,
 				C0BCF8CC1CBCF78D00EBC196 /* main.m */,
 			);
@@ -135,6 +138,7 @@
 				C0BCF8D71CBCF78D00EBC196 /* Info.plist in Resources */,
 				C0BCF8DE1CBCF7D200EBC196 /* Shaders in Resources */,
 				C0BCF8D51CBCF78D00EBC196 /* Main.storyboard in Resources */,
+				C0122A701CBE227A0065B26E /* Resouces in Resources */,
 				C0BCF8D31CBCF78D00EBC196 /* Assets.xcassets in Resources */,
 				C0BCF8D41CBCF78D00EBC196 /* LaunchScreen.storyboard in Resources */,
 			);
@@ -147,8 +151,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0BCF8D61CBCF78D00EBC196 /* GameViewController.m in Sources */,
 				C0BCF8D81CBCF78D00EBC196 /* main.m in Sources */,
+				C0122A741CBE27B00065B26E /* GameViewController.m in Sources */,
 				C0BCF8D21CBCF78D00EBC196 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

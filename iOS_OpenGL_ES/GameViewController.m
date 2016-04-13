@@ -8,7 +8,7 @@
 
 #import "GameViewController.h"
 #import <OpenGLES/ES2/glext.h>
-
+#include <stdio.h>
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 // Uniform index.
 enum
@@ -64,6 +64,14 @@ static GLfloat interwinded[] = {
     1.0f,-1.0f, 1.0f
 };
 
+
+//static GLfloat interwinded[] = {
+//    0.0f,0.0f,1.0f,
+//    1.0f,0.0f,1.0f,
+//    0.0f,1.0f,1.0f,
+//    1.0f,1.0f,1.0f,
+//};
+
 //static GLfloat color_val[]={
 //    1.0f,0.0f,0.0f,1.0f,
 //    1.0f,0.0f,1.0f,1.0f,
@@ -110,6 +118,61 @@ static  GLfloat color_val[] = {
     0.982f, 0.099f, 0.879f,1.0f,
 };
 
+//static GLfloat color_val[] = {
+//    1.0f,0.0f,0.0f,1.0f,
+//    1.0f,0.0f,0.0f,1.0f,
+//    1.0f,1.0f,0.0f,1.0f,
+//    1.0f,1.0f,0.0f,1.0f,
+//    1.0f,1.0f,0.0f,1.0f,
+//    1.0f,1.0f,0.0f,1.0f
+//};
+
+static const GLfloat g_uv_buffer_data[] = {
+    0.0f, 0.0f,
+        1.0f, 0.0f, 
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+    0.0f, 0.0f,
+    0.0f, 1.0f,
+    1.0, 0.0f,
+    1.0f, 1.0f,
+    0.667969f, 1.0f-0.671889f,
+    1.000023f, 1.0f-0.000013f,
+    0.668104f, 1.0f-0.000013f,
+    0.667979f, 1.0f-0.335851f,
+    0.000059f, 1.0f-0.000004f,
+    0.335973f, 1.0f-0.335903f,
+    0.336098f, 1.0f-0.000071f,
+    0.667979f, 1.0f-0.335851f,
+    0.335973f, 1.0f-0.335903f,
+    0.336024f, 1.0f-0.671877f,
+    1.000004f, 1.0f-0.671847f,
+    0.999958f, 1.0f-0.336064f,
+    0.667979f, 1.0f-0.335851f,
+    0.668104f, 1.0f-0.000013f,
+    0.335973f, 1.0f-0.335903f,
+    0.667979f, 1.0f-0.335851f,
+    0.335973f, 1.0f-0.335903f,
+    0.668104f, 1.0f-0.000013f,
+    0.336098f, 1.0f-0.000071f,
+    0.000103f, 1.0f-0.336048f,
+    0.000004f, 1.0f-0.671870f,
+    0.336024f, 1.0f-0.671877f,
+    0.000103f, 1.0f-0.336048f,
+    0.336024f, 1.0f-0.671877f,
+    0.335973f, 1.0f-0.335903f,
+    0.667969f, 1.0f-0.671889f,
+    1.000004f, 1.0f-0.671847f,
+    0.667979f, 1.0f-0.335851f
+};
+
+//static const GLfloat g_uv_buffer_data[] = {
+//    0.0f, 0.0f,
+//    1.0f, 0.0f,
+//    0.0f, 1.0f,
+//    1.0f, 1.0f,
+//};
+
 @interface GameViewController () {
     GLuint _program;
     
@@ -120,6 +183,7 @@ static  GLfloat color_val[] = {
     GLuint _vertexArray;
     GLuint _vertexBuffer;
     GLuint _colorBuffer;
+    GLuint _textureBuffer;
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
@@ -131,6 +195,7 @@ static  GLfloat color_val[] = {
 - (BOOL)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file;
 - (BOOL)linkProgram:(GLuint)prog;
 - (BOOL)validateProgram:(GLuint)prog;
+-(void) loadTexture;
 @end
 
 @implementation GameViewController
@@ -204,8 +269,81 @@ static  GLfloat color_val[] = {
         glGenBuffers(1, &_colorBuffer);
         glBindBuffer(GL_ARRAY_BUFFER, _colorBuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(color_val), color_val, GL_STATIC_DRAW);
+    
+        glGenBuffers(1, &_textureBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, _textureBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(g_uv_buffer_data), g_uv_buffer_data, GL_STATIC_DRAW);
+    
+    
+    [self loadTexture];
+    
+
 }
 
+-(void) loadTexture
+{
+    //Texture Data
+    //    GLKTextureInfo *spriteTexture;
+    //    NSError *theError;
+    //
+    //    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"Sprite" ofType:@"png"]; // 1
+    //
+    //    spriteTexture = [GLKTextureLoader textureWithContentsOfFile:filePath options:nil error:&theError]; // 2
+    //    glBindTexture(spriteTexture.target, spriteTexture.name); // 3
+   NSString *loap_path = [[NSBundle mainBundle] pathForResource:@"loap" ofType:@"jpg" inDirectory:@"Resouces"];
+//    const char* c_path = [loap_path cStringUsingEncoding:[NSString defaultCStringEncoding]];
+    
+//    int width=400,height=400;
+    UIImage *imgFromUrl3=[[UIImage alloc]initWithContentsOfFile:loap_path];
+    
+    CGImageRef cgImageRef = [imgFromUrl3 CGImage];
+    GLuint width = (GLuint)CGImageGetWidth(cgImageRef);
+    GLuint height = (GLuint)CGImageGetHeight(cgImageRef);
+    CGRect rect = CGRectMake(0, 0, width, height);
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    void *imageData = malloc(width * height * 4);
+    CGContextRef context = CGBitmapContextCreate(imageData, width, height, 8, width * 4, colorSpace, kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big);
+    CGContextTranslateCTM(context, 0, height);
+    CGContextScaleCTM(context, 1.0f, -1.0f);
+    CGColorSpaceRelease(colorSpace);
+    CGContextClearRect(context, rect);
+    CGContextDrawImage(context, rect, cgImageRef);
+
+    
+    
+    
+//    NSData *imgData = UIImageJPEGRepresentation(imgFromUrl3,0);
+//    unsigned char *data=malloc(imgData.length);
+//    [imgData getBytes:data length:imgData.length];
+//    imgFromUrl3.
+    glEnable(GL_TEXTURE_2D);
+    GLuint textureID;
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    /**
+     *  纹理过滤函数
+     *  图象从纹理图象空间映射到帧缓冲图象空间(映射需要重新构造纹理图像,这样就会造成应用到多边形上的图像失真),
+     *  这时就可用glTexParmeteri()函数来确定如何把纹理象素映射成像素.
+     *  如何把图像从纹理图像空间映射到帧缓冲图像空间（即如何把纹理像素映射成像素）
+     */
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); // S方向上的贴图模式
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); // T方向上的贴图模式
+    // 线性过滤：使用距离当前渲染像素中心最近的4个纹理像素加权平均值
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    
+    /**
+     *  将图像数据传递给到GL_TEXTURE_2D中, 因其于textureID纹理对象已经绑定，所以即传递给了textureID纹理对象中。
+     *  glTexImage2d会将图像数据从CPU内存通过PCIE上传到GPU内存。
+     *  不使用PBO时它是一个阻塞CPU的函数，数据量大会卡。
+     */
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imageData);
+    glDisable(GL_TEXTURE_2D);
+//    glBindTexture(GL_TEXTURE_2D, 0); //解绑
+//    CGContextRelease(context);
+//    free(imageData);
+}
 - (void)tearDownGL
 {
     [EAGLContext setCurrentContext:self.context];
@@ -227,9 +365,10 @@ static  GLfloat color_val[] = {
     // Compute the model view matrix for the object rendered with GLKit
     GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -1.5f);
     modelViewMatrix=GLKMatrix4Scale(modelViewMatrix, 0.5f, 0.5f, 1.0f);
+//        GLKVector3 vectors = GLKVector3Make(0.1f, 0.1f, 0.0f);
+//        modelViewMatrix=GLKMatrix4TranslateWithVector3(modelViewMatrix, vectors);
+
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-//    GLKMatrix4 moveMatrix4 = GLKMatrix4MakeTranslation(0.1f, 0.1f, -1.5f);
-//    modelViewMatrix = GLKMatrix4Multiply(modelViewMatrix,moveMatrix4);
      _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
     
     _rotation += self.timeSinceLastUpdate * 0.5f;
@@ -244,12 +383,19 @@ static  GLfloat color_val[] = {
     glEnableVertexAttribArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,0, BUFFER_OFFSET(0));
-    glDrawArrays(GL_TRIANGLES, 0, 12*3);
-    glDisableVertexAttribArray(0);
     
     glEnableVertexAttribArray(1);
     glBindBuffer(GL_ARRAY_BUFFER, _colorBuffer);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+    
+    glEnableVertexAttribArray(2);
+    glBindBuffer(GL_ARRAY_BUFFER, _textureBuffer);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
+    
+    
+    glDrawArrays(GL_TRIANGLES, 0, 12*3);
+//    glDrawArrays(GL_TRIANGLE_STRIP, 0, 12*3);
+    glDisableVertexAttribArray(0);
     glUseProgram(_program); //use link programe
     
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
@@ -293,7 +439,9 @@ static  GLfloat color_val[] = {
     // Bind attribute locations.
     // This needs to be done prior to linking.
     glBindAttribLocation(_program, GLKVertexAttribPosition, "position");
-//    glBindAttribLocation(_program, 1, "color");
+    glBindAttribLocation(_program, 1, "color");
+    glBindAttribLocation(_program, 2, "texture_coord");
+    glGetUniformLocation(_program, "mytextureSampler");
     
     
     // Link program.
