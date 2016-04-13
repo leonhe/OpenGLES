@@ -226,8 +226,10 @@ static  GLfloat color_val[] = {
     
     // Compute the model view matrix for the object rendered with GLKit
     GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -1.5f);
+    modelViewMatrix=GLKMatrix4Scale(modelViewMatrix, 0.5f, 0.5f, 1.0f);
     modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-    
+//    GLKMatrix4 moveMatrix4 = GLKMatrix4MakeTranslation(0.1f, 0.1f, -1.5f);
+//    modelViewMatrix = GLKMatrix4Multiply(modelViewMatrix,moveMatrix4);
      _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
     
     _rotation += self.timeSinceLastUpdate * 0.5f;
