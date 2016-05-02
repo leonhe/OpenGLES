@@ -20,7 +20,7 @@
 
 /* Begin PBXFileReference section */
 		C0122A6F1CBE227A0065B26E /* Resouces */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resouces; sourceTree = "<group>"; };
-		C0122A731CBE27B00065B26E /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameViewController.m; path = iOS_OpenGL_ES/GameViewController.m; sourceTree = "<group>"; };
+		C0122A731CBE27B00065B26E /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		C0BCF8941CBCB20600EBC196 /* iOS_OPenGL_ES.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOS_OPenGL_ES.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0BCF8C21CBCF78D00EBC196 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C0BCF8C31CBCF78D00EBC196 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -47,7 +47,6 @@
 		C0BCF88B1CBCB20600EBC196 = {
 			isa = PBXGroup;
 			children = (
-				C0122A731CBE27B00065B26E /* GameViewController.m */,
 				C0BCF8C11CBCF78D00EBC196 /* iOS_OpenGL_ES */,
 				C0BCF8951CBCB20600EBC196 /* Products */,
 			);
@@ -72,6 +71,7 @@
 				C0BCF8C51CBCF78D00EBC196 /* LaunchScreen.storyboard */,
 				C0BCF8C71CBCF78D00EBC196 /* Main.storyboard */,
 				C0BCF8C91CBCF78D00EBC196 /* GameViewController.h */,
+				C0122A731CBE27B00065B26E /* GameViewController.m */,
 				C0BCF8CB1CBCF78D00EBC196 /* Info.plist */,
 				C0BCF8CC1CBCF78D00EBC196 /* main.m */,
 			);

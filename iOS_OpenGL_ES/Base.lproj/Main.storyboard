@@ -27,12 +27,18 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Gb-Xd-G9W">
                                 <rect key="frame" x="36" y="486" width="46" height="30"/>
                                 <animations/>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="left"/>
+                                <connections>
+                                    <action selector="Left:" destination="BV1-FR-VrT" eventType="touchUpInside" id="tpf-j8-j4V"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="64J-ea-E3e">
                                 <rect key="frame" x="131" y="486" width="46" height="30"/>
                                 <animations/>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="Right"/>
+                                <connections>
+                                    <action selector="Right:" destination="BV1-FR-VrT" eventType="touchUpInside" id="2He-SS-G9m"/>
+                                </connections>
                             </button>
                         </subviews>
                         <animations/>
@@ -44,6 +50,9 @@
                     </view>
                     <toolbarItems/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="left" destination="3Gb-Xd-G9W" id="Sjg-h1-Gfa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>

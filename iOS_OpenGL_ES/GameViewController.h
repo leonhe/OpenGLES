@@ -10,5 +10,6 @@
 #import <GLKit/GLKit.h>
 
 @interface GameViewController : GLKViewController
+@property (weak, nonatomic) IBOutlet UIButton *left;
 
 @end

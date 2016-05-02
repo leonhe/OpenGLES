@@ -184,10 +184,22 @@ static const GLfloat g_uv_buffer_data[] = {
     GLuint _vertexBuffer;
     GLuint _colorBuffer;
     GLuint _textureBuffer;
+    
+    double horizontalAngle;
+    double verticalAngle;
+    
+    GLuint transformLoc;
+    
+    GLKVector3 cameraPos;
+    GLKVector3 cameraFront;
+    GLKVector3 cameraUP;
+    
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKBaseEffect *effect;
 
+- (IBAction)Right:(id)sender;
+- (IBAction)Left:(id)sender;
 - (void)setupGL;
 - (void)tearDownGL;
 
@@ -196,6 +208,8 @@ static const GLfloat g_uv_buffer_data[] = {
 - (BOOL)linkProgram:(GLuint)prog;
 - (BOOL)validateProgram:(GLuint)prog;
 -(void) loadTexture;
+-(void) setupTouch:(UIView*)view;
+-(void)respodToTapGesture:(UITapGestureRecognizer*)recognizer;
 @end
 
 @implementation GameViewController
@@ -215,8 +229,50 @@ static const GLfloat g_uv_buffer_data[] = {
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
     [self setupGL];
+    [self setupTouch: view];
 }
-
+//设置View Touch事件
+-(void)setupTouch:(UIView*)view
+{
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(respodToTapGesture:)];
+    
+    tapRecognizer.numberOfTapsRequired=1;
+    [view addGestureRecognizer:tapRecognizer];
+}
+-(void)respodToTapGesture: (UITapGestureRecognizer*)recognizer
+{
+    CGPoint location = [recognizer locationInView:recognizer.view];
+    NSLog(@"touch x:%f,y:%f",location.x,location.y);
+    CGFloat width=self.view.bounds.size.width;
+    CGFloat height=self.view.bounds.size.height;
+    GLKVector3 crossVec3 = GLKVector3CrossProduct(cameraFront,cameraUP);
+    
+    if (height*0.5>location.y) {
+        
+        if (location.x<width*0.5) {
+            
+            
+            cameraPos =GLKVector3Subtract(cameraPos, GLKVector3Normalize(crossVec3));
+            
+        }else if(location.x>=width*0.5){
+            cameraPos =GLKVector3Add(cameraPos, crossVec3);
+        }
+    }else{
+        
+        if(location.x<width*0.5)
+        {
+            cameraPos=GLKVector3Add(cameraPos, GLKVector3MultiplyScalar(cameraPos, 0.05f));
+            
+        }else if(location.x>=width*0.5){
+            cameraPos=GLKVector3Subtract(cameraPos, GLKVector3MultiplyScalar(cameraPos, 0.05f));
+        }
+    }
+    
+    
+    
+    
+    
+}
 - (void)dealloc
 {    
     [self tearDownGL];
@@ -248,6 +304,14 @@ static const GLfloat g_uv_buffer_data[] = {
     return YES;
 }
 
+- (IBAction)Right:(id)sender {
+    NSLog(@"Touch Right");
+}
+
+- (IBAction)Left:(id)sender {
+    NSLog(@"Left Touch");
+}
+
 - (void)setupGL
 {
     [EAGLContext setCurrentContext:self.context];
@@ -277,6 +341,10 @@ static const GLfloat g_uv_buffer_data[] = {
     
     [self loadTexture];
     
+    
+    cameraPos=GLKVector3Make(0.0f, 0.0f, 3.0f);
+    cameraFront =GLKVector3Make(0.0f, 0.0f, -0.5f);
+    cameraUP=GLKVector3Make(0.0f, 1.0f, 0.0f);
 
 }
 
@@ -310,13 +378,6 @@ static const GLfloat g_uv_buffer_data[] = {
     CGContextClearRect(context, rect);
     CGContextDrawImage(context, rect, cgImageRef);
 
-    
-    
-    
-//    NSData *imgData = UIImageJPEGRepresentation(imgFromUrl3,0);
-//    unsigned char *data=malloc(imgData.length);
-//    [imgData getBytes:data length:imgData.length];
-//    imgFromUrl3.
     glEnable(GL_TEXTURE_2D);
     GLuint textureID;
     glGenTextures(1, &textureID);
@@ -358,20 +419,54 @@ static const GLfloat g_uv_buffer_data[] = {
 
 - (void)update
 {
+    verticalAngle+=0.2;
+    horizontalAngle+=0.1;
+    
+    GLKVector3 direction= GLKVector3Make(cos(verticalAngle)*sin(horizontalAngle),
+                                         sin(verticalAngle),
+                                         cos(verticalAngle)*cos(horizontalAngle)
+                                         );
+    
+    GLKVector3 right=GLKVector3Make(sin(horizontalAngle*3.14f/2.0f),
+                                    0,
+                                    cos(horizontalAngle-3.14f/2.0f)
+                                    );
+    
+    GLKVector3 up = GLKVector3CrossProduct(direction, right);
+    
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
     GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(90.0f), aspect, 0.1f, 100.0f);
+    //摄像机的位置
+    GLKVector3 position = cameraPos;//GLKVector3Make(camX, 0, camz);
+   // GLKVector3 carmeFront = GLKVector3Make(0.0f,0.0f,-1.0f);
+    GLKVector3 centent = GLKVector3Add(cameraFront,cameraPos);//GLKVector3Make(0, 0, 0);
+    up=cameraUP;
     
-    
+    GLKMatrix4 viewMatrix=GLKMatrix4MakeLookAt(
+                                               position.x,position.y,position.z,
+                                               centent.x,centent.y,centent.z,
+                                               up.x,up.y,up.z);
     // Compute the model view matrix for the object rendered with GLKit
-    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -1.5f);
+    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, 0.0f);
+   
+    //缩放
     modelViewMatrix=GLKMatrix4Scale(modelViewMatrix, 0.5f, 0.5f, 1.0f);
-//        GLKVector3 vectors = GLKVector3Make(0.1f, 0.1f, 0.0f);
-//        modelViewMatrix=GLKMatrix4TranslateWithVector3(modelViewMatrix, vectors);
+    //平移
+    GLKVector3 moveValue = GLKVector3Make(0.0f, 0, 0);
+    modelViewMatrix = GLKMatrix4TranslateWithVector3(modelViewMatrix, moveValue);
 
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 1.0f, 1.0f);
-     _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
+    //旋转
+//    _rotation =GLKMathDegreesToRadians(10);
+    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, _rotation, 1.0f, 0.0f, 0.0f);
+    
+    
+       projectionMatrix = GLKMatrix4Multiply(projectionMatrix, viewMatrix);
+    
+    _modelViewProjectionMatrix = GLKMatrix4Multiply(projectionMatrix, modelViewMatrix);
+    
     
     _rotation += self.timeSinceLastUpdate * 0.5f;
+    
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
@@ -399,13 +494,11 @@ static const GLfloat g_uv_buffer_data[] = {
     glUseProgram(_program); //use link programe
     
     glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEWPROJECTION_MATRIX], 1, 0, _modelViewProjectionMatrix.m);
-
 //     glDisableVertexAttribArray(1);
     glFlush();
 
     
 }
-
 #pragma mark -  OpenGL ES 2 shader compilation
 
 - (BOOL)loadShaders
